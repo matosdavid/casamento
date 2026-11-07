@@ -90,7 +90,8 @@ button { font: inherit; color: inherit; }
 .selo { z-index: 6; padding: 0; border: 0; background: none; cursor: pointer; border-radius: 50%; }
 .selo:focus-visible { outline: 2px solid var(--vinho); outline-offset: 6px; }
 .selo-sombra { z-index: 4; border-radius: 50%; background: rgba(70, 20, 25, .35); filter: blur(8px); transform: translateY(7px) scale(.92); transition: opacity .3s; }
-@keyframes pulsa { 50% { transform: scale(1.07); } }
+/* pulsa usa "scale" (não "transform") para não brigar com a transição de abertura */
+@keyframes pulsa { 50% { scale: 1.07; } }
 .selo-metade {
   z-index: 5; display: flex; align-items: center; justify-content: center;
   border-radius: 48% 52% 50% 50% / 52% 48% 52% 48%;
