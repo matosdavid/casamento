@@ -10,6 +10,8 @@
 | Evento | Casamento **Kimie & David**, sexta-feira, **11/12/2026, 15h** (horário de Brasília) |
 | Site no ar | https://matosdavid.github.io/casamento/ |
 | Repositório | https://github.com/matosdavid/casamento (público, branch `main`) |
+| Guia de uso | https://matosdavid.github.io/casamento/guia/ (para a noiva; atualizar quando mudar o fluxo ou o que falta) |
+| Gerador de links | https://matosdavid.github.io/casamento/links.html |
 | Hospedagem | GitHub Pages: publica a raiz da `main` a cada push (~1 min) |
 | Stack | HTML + CSS + JS puro, sem build. Fontes Cormorant Garamond + Jost (Google Fonts) |
 | Status | Primeira versão no ar, com **fotos e textos provisórios** (destacados no site com borda tracejada) |
@@ -27,7 +29,8 @@
 index.html      página do convite
 style.css       visual (paleta papel / vinho / dourado nas variáveis de :root)
 script.js       CONFIG no topo (todas as informações editáveis) + interações
-links.html      gerador de links personalizados para os convidados (não salva nada)
+links.html      gerador de links personalizados (lista salva só no navegador, via localStorage)
+guia/index.html guia de uso para a noiva: /casamento/guia/ (como ver, gerar links, o que falta)
 evento.ics      arquivo de agenda (iPhone/Outlook): atualizar LOCATION quando tiver o local
 assets/fotos/   fotos (todas provisórias por enquanto)
 .nojekyll       faz o Pages servir os arquivos como estão
