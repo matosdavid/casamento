@@ -91,7 +91,7 @@ p { margin: 0 0 1em; }
 @keyframes zoom { from { transform: scale(1.12); } to { transform: scale(1); } }
 .hero-texto { position: relative; z-index: 1; }
 .hero .sobre { color: var(--ouro-claro); }
-.hero h1 { font-size: clamp(56px, 15vw, 120px); font-weight: 400; letter-spacing: .01em; text-shadow: 0 2px 24px rgba(0, 0, 0, .25); }
+.hero h1 { font-size: clamp(44px, 13.5vw, 120px); font-weight: 400; letter-spacing: .01em; text-shadow: 0 2px 24px rgba(0, 0, 0, .25); }
 .hero h1 em { color: var(--ouro-claro); }
 .hero-data { font: 400 clamp(22px, 5.5vw, 30px)/1 var(--serif); letter-spacing: .28em; padding-left: .28em; margin: 16px 0 10px; }
 .hero-hora { font-size: 12px; letter-spacing: .3em; padding-left: .3em; text-transform: uppercase; opacity: .9; margin: 0; }
