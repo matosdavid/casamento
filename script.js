@@ -10,7 +10,7 @@ const CONFIG = {
   mapa: '',            // link do Google Maps do local (opcional; vazio = busca pelo endereço)
   traje: 'Esporte fino',
   prazo: '20 de novembro',
-  pix: '+5541999063756',
+  pix: '41999063756',
   pixNome: '',         // titular da chave (opcional; vazio = linha escondida)
   listaPresentes: '',  // link de lista de presentes (opcional)
   whatsapp: '5541999063756',      // quem recebe as confirmações: só dígitos, 55 + DDD + número
@@ -387,6 +387,7 @@ const CONFIG = {
       window.open('https://wa.me/' + CONFIG.whatsapp + '?text=' + enc(linhas.join('\n')), '_blank');
       enviado = true;
     }
+    if (enviado && convidado) lembrar(vai, juntar(quem));
     $('.verso-icone').textContent = vai ? '🥂' : '💌';
     $('#obrigado-titulo').textContent = vai ? 'Obrigado! Até lá' : 'Obrigado por avisar';
     $('#obrigado-texto').textContent = !enviado
@@ -407,6 +408,26 @@ const CONFIG = {
     form.inert = false;
     verso.inert = true;
   });
+
+  /* ---------- Lembra quem já respondeu (neste aparelho) ----------
+     Quem volta ao link vê a resposta dada, com a opção "Alterar resposta".
+     Na planilha, o script atualiza a linha do mesmo convite em vez de duplicar. */
+  const chaveRsvp = 'rsvp:' + convidado;
+  const lembrar = (vai, quem) => { try { localStorage.setItem(chaveRsvp, JSON.stringify({ vai, quem })); } catch (e) {} };
+  let jaRespondeu = null;
+  try { jaRespondeu = JSON.parse(localStorage.getItem(chaveRsvp) || 'null'); } catch (e) {}
+  if (convidado && jaRespondeu) {
+    $('.verso-icone').textContent = jaRespondeu.vai ? '🥂' : '💌';
+    $('#obrigado-titulo').textContent = varios ? 'Vocês já responderam' : 'Você já respondeu';
+    $('#obrigado-texto').textContent = (jaRespondeu.vai
+      ? `Presença confirmada: ${jaRespondeu.quem}. Até lá!`
+      : (varios ? 'Vocês avisaram que não poderão ir.' : 'Você avisou que não poderá ir.'))
+      + (CONFIG.planilha ? '' : ' Se não chegou a enviar no WhatsApp, toque em “Alterar resposta” e envie de novo.');
+    versoAgenda.hidden = !jaRespondeu.vai;
+    cena.classList.add('virado');
+    form.inert = true;
+    verso.inert = false;
+  }
 
   /* ---------- Botão flutuante e pétalas da capa ---------- */
   const fab = $('#flutuante');
@@ -476,6 +497,9 @@ const CONFIG = {
     entra(it, { x: -26, autoAlpha: 0 }, it, 'top 85%');
     ST.create({ trigger: it, start: 'top 65%', onEnter: () => it.classList.add('ativo'), onLeaveBack: () => it.classList.remove('ativo') });
   });
+
+  // Foto do pedido: a polaroid cai na página e se ajeita
+  entra('.lt-foto', { rotate: -12, y: 50, scale: .92, autoAlpha: 0, duration: 1.4 }, '.lt-foto', 'top 90%');
 
   // Galeria: cortina + zoom
   fotos.forEach((f, i) => {

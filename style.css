@@ -158,6 +158,24 @@ button { font: inherit; color: inherit; }
 @keyframes desenha { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 @keyframes quica { 50% { transform: translateY(7px); } }
 
+/* Capa (foto na neve): no celular o texto fica no céu, no alto; no computador, à direita */
+@media (max-aspect-ratio: 1/1) {
+  .hero { justify-content: flex-start; padding: calc(10vh + env(safe-area-inset-top)) 20px 0; }
+  .hero img { object-position: 25% 50%; }
+  .hero::after { background: linear-gradient(180deg, rgba(25, 12, 10, .62) 0%, rgba(25, 12, 10, .3) 30%, rgba(25, 12, 10, 0) 52%, rgba(25, 12, 10, 0) 82%, rgba(25, 12, 10, .3) 100%); }
+}
+@media (min-aspect-ratio: 1/1) {
+  .hero { justify-content: center; align-items: flex-end; padding: 0 6vw; }
+  .hero-texto { width: min(48vw, 640px); }
+  .hero-nomes { font-size: clamp(44px, 6.4vw, 104px); }
+  .hero::after { background: linear-gradient(90deg, rgba(25, 12, 10, 0) 30%, rgba(25, 12, 10, .5) 62%, rgba(25, 12, 10, .62) 100%); }
+}
+
+/* Foto do pedido, em moldura de polaroid dentro da história */
+.lt-foto { max-width: 300px; margin: 18px 0 4px; padding: 10px 10px 0; background: #fff; border-radius: 3px; box-shadow: 0 18px 36px -18px rgba(70, 35, 25, .45); transform: rotate(-2deg); }
+.lt-foto img { width: 100%; height: auto; border-radius: 2px; }
+.lt-foto figcaption { padding: 8px 4px 12px; text-align: center; font: italic 500 19px/1.2 var(--serif); color: var(--vinho); }
+
 /* ---------- Seções ---------- */
 .secao { position: relative; padding: clamp(80px, 14vw, 132px) 22px; text-align: center; }
 .secao > * { max-width: 640px; margin-left: auto; margin-right: auto; }
@@ -311,7 +329,7 @@ button { font: inherit; color: inherit; }
 .pix-dentro { overflow: hidden; min-height: 0; }
 .pix-conteudo { display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 12px; }
 .pix-linha { display: inline-flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; }
-.pix-linha code { font: 400 14px/1.4 ui-monospace, 'SF Mono', Menlo, monospace; color: var(--tinta); word-break: break-all; }
+.pix-linha code { font: 400 13px/1.4 ui-monospace, 'SF Mono', Menlo, monospace; letter-spacing: .04em; color: #B3A9A2; word-break: break-all; }
 .pix-copiar { background: none; border: 1px solid var(--ouro-claro); border-radius: 999px; padding: 2px 12px; font-size: 12px; letter-spacing: .08em; color: var(--vinho); cursor: pointer; transition: background .3s, border-color .3s; }
 .pix-copiar:hover { background: rgba(123, 45, 59, .06); border-color: var(--vinho); }
 .presentes small { font-size: 14px; }
