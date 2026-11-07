@@ -12,6 +12,7 @@
 | Repositório | https://github.com/matosdavid/casamento (público, branch `main`) |
 | Guia de uso | https://matosdavid.github.io/casamento/guia/ (para a noiva; atualizar quando mudar o fluxo ou o que falta) |
 | Gerador de links | https://matosdavid.github.io/casamento/links.html |
+| Estilo dos textos | **Sem travessão (— ou –) nos textos das páginas**, pedido do usuário: no Brasil quase ninguém usa e denuncia texto gerado por IA. Usar vírgula, ponto ou dois-pontos. |
 | Hospedagem | GitHub Pages: publica a raiz da `main` a cada push (~1 min) |
 | Stack | HTML + CSS + JS puro, sem build. Fontes Cormorant Garamond + Jost (Google Fonts) |
 | Status | Primeira versão no ar, com **fotos e textos provisórios** (destacados no site com borda tracejada) |
@@ -62,7 +63,7 @@ Seções, em ordem: envelope (abre ao tocar no selo) → capa com foto → convi
 - **RSVP:** abre o WhatsApp dos noivos com a mensagem formatada (quando `whatsapp` estiver preenchido) **ou** grava numa planilha Google (quando `planilha` estiver preenchido, ver abaixo). Sem nenhum dos dois, mostra "modo de teste".
 - **Agenda:** iPhone/Mac baixa `evento.ics`; os demais abrem o Google Agenda já preenchido.
 - **Prévia no WhatsApp:** meta tags Open Graph com título, data e `assets/fotos/og.jpg`.
-- **Cache:** o `index.html` carrega `style.css?v=5` e `script.js?v=5`. A cada mudança no CSS/JS, aumente esse número; senão, quem já abriu o site pode ver a versão antiga por até 10 minutos.
+- **Cache:** o `index.html` carrega `style.css?v=6` e `script.js?v=6`. A cada mudança no CSS/JS, aumente esse número; senão, quem já abriu o site pode ver a versão antiga por até 10 minutos.
 
 ## O que falta (informações dos noivos)
 

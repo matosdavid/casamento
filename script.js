@@ -1,12 +1,12 @@
 /* =====================================================================
-   EDITE AQUI — informações do convite (Kimie & David · 11/12/2026)
+   EDITE AQUI: informações do convite (Kimie & David · 11/12/2026)
    Valores entre [colchetes] aparecem destacados no site como "a preencher".
    ===================================================================== */
 const CONFIG = {
   inicio: '2026-12-11T15:00:00-03:00', // cerimônia (horário de Brasília)
   fim: '2026-12-11T22:00:00-03:00',    // fim estimado (só para a agenda)
   local: '[Nome do local]',
-  endereco: '[Endereço completo · Cidade – UF]',
+  endereco: '[Endereço completo · Cidade - UF]',
   mapa: '',            // link do Google Maps do local (opcional; vazio = busca pelo endereço)
   traje: '[Esporte fino]',
   prazo: '[30 de novembro]',
