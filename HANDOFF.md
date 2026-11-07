@@ -59,7 +59,7 @@ Seções, em ordem: envelope (abre ao tocar no selo) → capa com foto → convi
 - **RSVP:** abre o WhatsApp dos noivos com a mensagem formatada (quando `whatsapp` estiver preenchido) **ou** grava numa planilha Google (quando `planilha` estiver preenchido, ver abaixo). Sem nenhum dos dois, mostra "modo de teste".
 - **Agenda:** iPhone/Mac baixa `evento.ics`; os demais abrem o Google Agenda já preenchido.
 - **Prévia no WhatsApp:** meta tags Open Graph com título, data e `assets/fotos/og.jpg`.
-- **Cache:** o `index.html` carrega `style.css?v=2` e `script.js?v=2`. A cada mudança no CSS/JS, aumente esse número; senão, quem já abriu o site pode ver a versão antiga por até 10 minutos.
+- **Cache:** o `index.html` carrega `style.css?v=3` e `script.js?v=3`. A cada mudança no CSS/JS, aumente esse número; senão, quem já abriu o site pode ver a versão antiga por até 10 minutos.
 
 ## O que falta (informações dos noivos)
 

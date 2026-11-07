@@ -95,7 +95,7 @@ button { font: inherit; color: inherit; }
 .selo:focus-visible { outline: 2px solid var(--vinho); outline-offset: 6px; }
 @keyframes pulsa { 50% { transform: scale(1.07); } }
 .selo-metade {
-  position: absolute; inset: 0; display: grid; place-items: center;
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
   border-radius: 48% 52% 50% 50% / 52% 48% 52% 48%;
   background: radial-gradient(circle at 35% 30%, #B4505E, #7B2D3B 55%, #561A25);
   box-shadow: inset 0 0 0 5px rgba(255, 255, 255, .06), inset 0 -5px 10px rgba(0, 0, 0, .25);
@@ -273,7 +273,8 @@ button { font: inherit; color: inherit; }
 .contador button:hover { background: var(--ouro-claro); }
 .contador button:active { transform: scale(.9); }
 .contador button:disabled { opacity: .35; cursor: default; }
-.contador output { display: inline-block; min-width: 2ch; text-align: center; font: 500 28px/1 var(--serif); }
+.contador output { display: inline-block; min-width: 2ch; text-align: center; font: 500 28px/1 var(--serif); font-variant-numeric: lining-nums; }
+.rsvp-verso .botao { margin-bottom: 18px; }
 .contador output.pulo { animation: pulo .35s var(--suave); }
 @keyframes pulo { 40% { transform: scale(1.4); } }
 .botao-grande { width: 100%; padding: 18px; font-size: 13px; margin-top: 4px; }

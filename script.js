@@ -189,6 +189,9 @@ const CONFIG = {
       + '&location=' + enc(onde)
       + '&details=' + enc('Cerimônia às 15h. Convite: ' + location.origin + location.pathname);
   }
+  const versoAgenda = $('#verso-agenda');
+  versoAgenda.href = agenda.href;
+  if (!agenda.hasAttribute('target')) versoAgenda.removeAttribute('target');
 
   /* ---------- Presentes (discreto) ---------- */
   const toast = $('#toast');
@@ -360,7 +363,9 @@ const CONFIG = {
       ? '(Modo de teste: a confirmação ainda não está conectada.)'
       : CONFIG.planilha ? (vai ? 'Sua presença está confirmada.' : 'Vamos sentir sua falta!')
       : 'Agora é só tocar em “enviar” no WhatsApp para concluir.';
+    versoAgenda.hidden = !vai;
     cena.classList.add('virado');
+    setTimeout(() => cena.scrollIntoView({ behavior: calmo ? 'auto' : 'smooth', block: 'center' }), 150);
     form.inert = true;
     verso.inert = false;
     botao.disabled = false;
