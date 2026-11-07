@@ -33,9 +33,25 @@ assets/fotos/   fotos (todas provisórias por enquanto)
 .nojekyll       faz o Pages servir os arquivos como estão
 ```
 
-Seções, em ordem: envelope animado com selo "K&D" (abre ao tocar) → capa com foto → convite → contagem regressiva → nossa história (linha do tempo) → galeria → onde e quando (mapa + salvar na agenda) → traje e prazo → presentes (PIX com botão copiar) → RSVP → rodapé. Um botão flutuante "Confirmar presença" aparece ao rolar.
+Seções, em ordem: envelope (abre ao tocar no selo) → capa com foto → convite → contagem regressiva → nossa história (linha do tempo) → galeria → onde e quando (mapa + salvar na agenda) → traje e prazo → RSVP → presentes (discreto, só uma frase) → rodapé. Um botão flutuante "Confirmar presença" aparece ao rolar.
 
 ## O que já funciona
+
+**Animações e interação** (GSAP 3.12.5 + ScrollTrigger via cdnjs, carregados no `index.html`):
+
+- **Envelope:** o selo de cera racha em duas metades, a aba abre em 3D, a carta sobe e cresce até virar a capa, com chuva de pétalas (canvas). Vibra de leve no Android. O usuário gostou muito dessa parte: manter.
+- **Capa:** os nomes surgem letra a letra (de desfocado a nítido), o "&" gira, um floreio com coração se desenha, pétalas caem de leve enquanto a capa está na tela, e a foto faz parallax ao rolar.
+- **Títulos** sobem palavra por palavra de dentro de uma máscara; ramos botânicos dourados se desenham e flutuam em parallax.
+- **Contagem regressiva** com dígitos que rolam a cada segundo.
+- **Nossa história:** a linha do tempo se preenche com a rolagem e os marcadores acendem.
+- **Galeria:** as fotos aparecem com efeito de cortina e zoom; um toque abre em tela cheia, com deslizar para os lados, setas e teclado.
+- **Local:** o cartão entra em 3D e o "11" conta de 1 a 11. Os botões têm efeito de onda ao toque.
+- **RSVP:** cartões "Vou / Não vou", contador de pessoas (− / +); ao enviar, o cartão vira em 3D mostrando o agradecimento e solta confete de corações. "Alterar resposta" desvira.
+- **Presentes (pedido do usuário: bem sutil):** só uma frase no fim com o link "deixamos uma chave PIX", que abre suavemente; copiar mostra um aviso pequeno.
+- Barra de progresso dourada no topo.
+- Sem GSAP (CDN fora do ar) ou com "reduzir movimento" ligado no aparelho, o site fica estático e tudo continua visível.
+
+**Funcional:**
 
 - **Link personalizado por convidado:** `?para=Tia%20Maria&n=2` mostra "Para Tia Maria" no envelope, cumprimenta pelo nome, preenche o nome no RSVP e limita a 2 pessoas. Sem `n`, o limite é `pessoasPadrao` (4).
 - **Gerador de links:** `/links.html`. Cola uma lista `Nome; pessoas` e ele gera o link de cada um + botão "Enviar no WhatsApp" com a mensagem pronta.
@@ -43,7 +59,7 @@ Seções, em ordem: envelope animado com selo "K&D" (abre ao tocar) → capa com
 - **RSVP:** abre o WhatsApp dos noivos com a mensagem formatada (quando `whatsapp` estiver preenchido) **ou** grava numa planilha Google (quando `planilha` estiver preenchido, ver abaixo). Sem nenhum dos dois, mostra "modo de teste".
 - **Agenda:** iPhone/Mac baixa `evento.ics`; os demais abrem o Google Agenda já preenchido.
 - **Prévia no WhatsApp:** meta tags Open Graph com título, data e `assets/fotos/og.jpg`.
-- Respeita `prefers-reduced-motion`. A animação ao rolar tem fallback: se o navegador não der suporte, tudo fica visível.
+- **Cache:** o `index.html` carrega `style.css?v=2` e `script.js?v=2`. A cada mudança no CSS/JS, aumente esse número; senão, quem já abriu o site pode ver a versão antiga por até 10 minutos.
 
 ## O que falta (informações dos noivos)
 
