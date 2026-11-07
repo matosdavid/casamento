@@ -54,6 +54,7 @@ const CONFIG = {
     $('#saudacao').textContent = convidado + ',';
     $('#saudacao').hidden = false;
   }
+  if (nomes.length > 1) $('.convite h2').textContent = 'convidamos vocês para celebrar o nosso casamento';
 
   /* ---------- Pétalas e confete (canvas) ---------- */
   const tela = $('#petalas');
