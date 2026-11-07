@@ -17,6 +17,18 @@
 | Stack | HTML + CSS + JS puro, sem build. Fontes Cormorant Garamond + Jost (Google Fonts) |
 | Status | Primeira versão no ar, com **fotos e textos provisórios** (destacados no site com borda tracejada) |
 
+## Status em 07/11/2026
+
+Já preenchido (pela noiva) e no ar:
+- Local: Edifício Santa Margherita, Rua Tamandaré, 655 - Liberdade, São Paulo - SP, 01525-001 (também no `evento.ics`)
+- Traje: Esporte fino · Prazo do RSVP: 20 de novembro
+- RSVP via WhatsApp para +55 41 99906-3756 (`CONFIG.whatsapp`). Planilha ainda não configurada.
+- PIX: +5541999063756 (titular não informado: `pixNome` vazio esconde a linha "Titular")
+- Nossa história: 2023 (primeiro encontro) e 2025 (pedido em Toronto), textos da noiva em `index.html`
+- Letras do "Este convite é para N pessoas" e do trecho do PIX ficaram maiores e mais escuras (pedido da noiva)
+
+**Falta:** fotos reais (ver tabela de fotos). Telefone e chave PIX ficam visíveis no código público e no site, o que é inerente ao convite.
+
 ## Por que GitHub Pages (e não Streamlit)
 
 - **GitHub Pages:** grátis, no ar 24h sem "dormir", HTTPS, aguenta muito acesso, deploy = `git push`. Ideal para site estático como um convite.

@@ -5,15 +5,15 @@
 const CONFIG = {
   inicio: '2026-12-11T15:00:00-03:00', // cerimônia (horário de Brasília)
   fim: '2026-12-11T22:00:00-03:00',    // fim estimado (só para a agenda)
-  local: '[Nome do local]',
-  endereco: '[Endereço completo · Cidade - UF]',
+  local: 'Edifício Santa Margherita',
+  endereco: 'Rua Tamandaré, 655 - Liberdade, São Paulo - SP, 01525-001',
   mapa: '',            // link do Google Maps do local (opcional; vazio = busca pelo endereço)
-  traje: '[Esporte fino]',
-  prazo: '[30 de novembro]',
-  pix: '[chave-pix-aqui]',
-  pixNome: '[Nome do titular]',
+  traje: 'Esporte fino',
+  prazo: '20 de novembro',
+  pix: '+5541999063756',
+  pixNome: '',         // titular da chave (opcional; vazio = linha escondida)
   listaPresentes: '',  // link de lista de presentes (opcional)
-  whatsapp: '',        // quem recebe as confirmações: só dígitos, 55 + DDD + número
+  whatsapp: '5541999063756',      // quem recebe as confirmações: só dígitos, 55 + DDD + número
   planilha: '',        // URL do Google Apps Script (opcional, ver HANDOFF.md)
 };
 
@@ -47,6 +47,7 @@ const CONFIG = {
     el.textContent = v;
     el.classList.toggle('todo', !preenchido(v));
   });
+  if (!CONFIG.pixNome) $('[data-cfg=\"pixNome\"]').parentElement.hidden = true;
   if (convidado) {
     $('#nome-envelope').textContent = convidado;
     $('#para-envelope').hidden = false;

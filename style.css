@@ -299,10 +299,10 @@ button { font: inherit; color: inherit; }
 .pessoa.marcada .check { background: var(--vinho); border-color: var(--vinho); transform: scale(1.08); }
 .pessoa.marcada .check::after { transform: rotate(45deg) scale(1); }
 .pessoa:focus-within { outline: 2px solid rgba(123, 45, 59, .4); outline-offset: 2px; }
-.quem small { font-size: 13px; color: var(--tinta-2); }
+.quem small { font-size: 15px; font-weight: 400; color: var(--tinta); }
 
 /* ---------- Presentes (discreto) ---------- */
-.presentes { max-width: 520px; margin: 0 auto; padding: 0 24px 96px; text-align: center; font-size: 15px; line-height: 1.8; color: var(--tinta-2); }
+.presentes { max-width: 520px; margin: 0 auto; padding: 0 24px 96px; text-align: center; font-size: 17px; font-weight: 400; line-height: 1.8; color: var(--tinta); }
 .presentes .ornamento { margin: 0 auto 22px; }
 .presentes .ornamento span { width: 40px; }
 .presentes p { margin: 0; }
@@ -314,7 +314,7 @@ button { font: inherit; color: inherit; }
 .pix-linha code { font: 400 14px/1.4 ui-monospace, 'SF Mono', Menlo, monospace; color: var(--tinta); word-break: break-all; }
 .pix-copiar { background: none; border: 1px solid var(--ouro-claro); border-radius: 999px; padding: 2px 12px; font-size: 12px; letter-spacing: .08em; color: var(--vinho); cursor: pointer; transition: background .3s, border-color .3s; }
 .pix-copiar:hover { background: rgba(123, 45, 59, .06); border-color: var(--vinho); }
-.presentes small { font-size: 13px; }
+.presentes small { font-size: 14px; }
 
 .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); z-index: 210; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; padding: 10px 18px; border-radius: 999px; background: rgba(46, 37, 34, .92); color: #FFF8F0; font-size: 13px; letter-spacing: .04em; transition: opacity .35s, transform .35s var(--suave); }
 .toast.mostrar { opacity: 1; transform: translate(-50%, 0); }
