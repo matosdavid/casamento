@@ -39,27 +39,27 @@ Seções, em ordem: envelope (abre ao tocar no selo) → capa com foto → convi
 
 **Animações e interação** (GSAP 3.12.5 + ScrollTrigger via cdnjs, carregados no `index.html`):
 
-- **Envelope:** o selo de cera racha em duas metades, a aba abre em 3D, a carta sobe e cresce até virar a capa, com chuva de pétalas (canvas). Vibra de leve no Android. O usuário gostou muito dessa parte: manter.
-- **Capa:** os nomes surgem letra a letra (de desfocado a nítido), o "&" gira, um floreio com coração se desenha, pétalas caem de leve enquanto a capa está na tela, e a foto faz parallax ao rolar.
+- **Envelope:** o selo de cera racha na horizontal (a parte de cima sai junto com a aba, a de baixo fica no envelope, com farelos de cera), a aba abre em 3D, a carta sobe e cresce até virar a capa, com chuva de pétalas (canvas). Vibra de leve no Android. O usuário gostou muito dessa parte: manter. Não voltar a rachar na vertical: separava o K do D e parecia um coração partido.
+- **Capa:** os nomes surgem letra a letra (de desfocado a nítido), o "&" gira, um floreio com coração se desenha, pétalas caem de leve enquanto a capa está na tela, e a foto faz parallax ao rolar. O "Vamos nos casar" foi removido a pedido.
 - **Títulos** sobem palavra por palavra de dentro de uma máscara; ramos botânicos dourados se desenham e flutuam em parallax.
 - **Contagem regressiva** com dígitos que rolam a cada segundo.
 - **Nossa história:** a linha do tempo se preenche com a rolagem e os marcadores acendem.
 - **Galeria:** as fotos aparecem com efeito de cortina e zoom; um toque abre em tela cheia, com deslizar para os lados, setas e teclado.
 - **Local:** o cartão entra em 3D e o "11" conta de 1 a 11. Os botões têm efeito de onda ao toque.
-- **RSVP:** cartões "Vou / Não vou", contador de pessoas (− / +); ao enviar, o cartão vira em 3D mostrando o agradecimento e solta confete de corações. "Alterar resposta" desvira.
+- **RSVP:** cartões "Vou / Não vou" (no plural quando o convite tem mais de um nome) e, para casais e famílias, a lista "Quem vai?" só com os nomes do convite, para desmarcar quem não puder ir. Não existe campo de quantidade, para ninguém achar que pode levar acompanhante. Ao enviar, o cartão vira em 3D com o agradecimento, o botão de agenda e confete de corações. "Alterar resposta" desvira.
 - **Presentes (pedido do usuário: bem sutil):** só uma frase no fim com o link "deixamos uma chave PIX", que abre suavemente; copiar mostra um aviso pequeno.
 - Barra de progresso dourada no topo.
 - Sem GSAP (CDN fora do ar) ou com "reduzir movimento" ligado no aparelho, o site fica estático e tudo continua visível.
 
 **Funcional:**
 
-- **Link personalizado por convidado:** `?para=Tia%20Maria&n=2` mostra "Para Tia Maria" no envelope, cumprimenta pelo nome, preenche o nome no RSVP e limita a 2 pessoas. Sem `n`, o limite é `pessoasPadrao` (4).
-- **Gerador de links:** `/links.html`. Cola uma lista `Nome; pessoas` e ele gera o link de cada um + botão "Enviar no WhatsApp" com a mensagem pronta.
+- **Link personalizado por convite:** `?c=<código>` leva os nomes exatos do convite (ex.: `Tio Hugo|Tia Georgia`) em base64, para não ficarem legíveis nem fáceis de editar na URL. É disfarce, não segurança. O site mostra "Para Tio Hugo e Tia Georgia" no envelope, cumprimenta pelos nomes e monta o RSVP só com essas pessoas. `?para=Ana|Bruno` sem codificar também funciona. Um link sem nomes pede o nome no RSVP.
+- **Gerador de links:** `/links.html`. Um convite por linha, com telefone opcional depois de `;` (ex.: `Tio Hugo e Tia Georgia; 11 99999-9999`). Ele gera o link codificado, a mensagem no singular ou plural ({voces}) e o botão que abre direto a conversa daquele contato no WhatsApp. Também marca quem já recebeu e mostra o total de convites, pessoas e enviados. A lista fica salva só no navegador (localStorage), nunca no repo.
 - **Pular o envelope:** links com `#secao` (ex.: `.../casamento/#rsvp`) abrem direto na seção. O envelope também só aparece uma vez por visita.
 - **RSVP:** abre o WhatsApp dos noivos com a mensagem formatada (quando `whatsapp` estiver preenchido) **ou** grava numa planilha Google (quando `planilha` estiver preenchido, ver abaixo). Sem nenhum dos dois, mostra "modo de teste".
 - **Agenda:** iPhone/Mac baixa `evento.ics`; os demais abrem o Google Agenda já preenchido.
 - **Prévia no WhatsApp:** meta tags Open Graph com título, data e `assets/fotos/og.jpg`.
-- **Cache:** o `index.html` carrega `style.css?v=3` e `script.js?v=3`. A cada mudança no CSS/JS, aumente esse número; senão, quem já abriu o site pode ver a versão antiga por até 10 minutos.
+- **Cache:** o `index.html` carrega `style.css?v=4` e `script.js?v=4`. A cada mudança no CSS/JS, aumente esse número; senão, quem já abriu o site pode ver a versão antiga por até 10 minutos.
 
 ## O que falta (informações dos noivos)
 
@@ -102,15 +102,22 @@ Junta todas as respostas numa planilha, grátis e sem servidor:
 ```js
 function doPost(e) {
   const aba = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
-  if (aba.getLastRow() === 0) aba.appendRow(['Quando', 'Nome', 'Vai?', 'Pessoas', 'Restrições', 'Recado', 'Link (para=)']);
+  if (aba.getLastRow() === 0) aba.appendRow(['Quando', 'Convite', 'Vai?', 'Quem vai', 'Pessoas', 'Não vai', 'Restrições', 'Recado']);
   const p = e.parameter;
-  aba.appendRow([new Date(), p.nome, p.vai, p.pessoas, p.restricoes, p.recado, p.convite]);
+  aba.appendRow([new Date(), p.convite, p.vai, p.quem, p.pessoas, p.nao_vao, p.restricoes, p.recado]);
+  // Avisa por e-mail o dono da planilha a cada resposta (chega como notificação do Gmail)
+  MailApp.sendEmail(Session.getEffectiveUser().getEmail(), `RSVP: ${p.convite} (${p.vai})`,
+    `Quem vai: ${p.quem || '-'}\nNão vai: ${p.nao_vao || '-'}\nRestrições: ${p.restricoes || '-'}\nRecado: ${p.recado || '-'}`);
   return ContentService.createTextOutput('ok');
 }
 ```
 
 2. **Implantar → Nova implantação → App da Web**: executar como "Eu", acesso "Qualquer pessoa". Copie a URL `https://script.google.com/macros/s/.../exec`.
-3. Cole em `CONFIG.planilha` no `script.js`, faça push e teste uma confirmação.
+3. Cole em `CONFIG.planilha` no `script.js`, faça push e teste uma confirmação. Na primeira vez, o Google pede para autorizar o acesso à planilha e ao e-mail.
+
+**Como os noivos ficam sabendo de cada resposta:**
+- **Com a planilha (recomendado):** cada RSVP vira uma linha nova e o script manda um e-mail para o dono da planilha, que chega como notificação do Gmail no celular. A lista fica pronta para contar os convidados.
+- **Só com WhatsApp:** o convidado toca em "enviar" e a mensagem chega no WhatsApp dos noivos. Mas depende de ele concluir o envio, e não há lista automática.
 
 ## Como publicar uma alteração
 

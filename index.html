@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap">
 <!-- ?v= força os navegadores a baixar a versão nova: aumente o número a cada mudança no CSS/JS -->
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 <script>
   // Envelope aparece uma vez por visita; links com #secao (ex.: #rsvp) pulam direto.
   document.documentElement.classList.add('js');
@@ -28,7 +28,7 @@
 </script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script defer src="script.js?v=3"></script>
+<script defer src="script.js?v=4"></script>
 </head>
 <body>
 <div class="progresso" id="progresso" aria-hidden="true"></div>
@@ -61,11 +61,12 @@
       </div>
       <div class="env-frente"></div>
       <div class="env-aba"></div>
+      <!-- Selo: racha na horizontal; a parte de cima sai com a aba, a de baixo fica no envelope -->
+      <span class="selo-sombra" aria-hidden="true"></span>
+      <span class="selo-metade cima" aria-hidden="true">K<em>&amp;</em>D</span>
+      <span class="selo-metade baixo" aria-hidden="true">K<em>&amp;</em>D</span>
       <button class="selo" id="abrir" type="button" aria-label="Abrir o convite"
-              onclick="document.documentElement.classList.add('aberto')">
-        <span class="selo-metade e" aria-hidden="true">K<em>&amp;</em>D</span>
-        <span class="selo-metade d" aria-hidden="true">K<em>&amp;</em>D</span>
-      </button>
+              onclick="document.documentElement.classList.add('aberto')"></button>
     </div>
     <p class="para" id="para-envelope" hidden>Para <span id="nome-envelope"></span></p>
     <p class="dica">Toque no selo para abrir</p>
@@ -81,7 +82,6 @@
     </picture>
   </div>
   <div class="hero-texto">
-    <p class="sobre hero-sobre">Vamos nos casar</p>
     <h1 class="hero-nomes" aria-label="Kimie e David"><span class="nome">Kimie</span> <em class="ecom">&amp;</em> <span class="nome">David</span></h1>
     <svg class="floreio" viewBox="0 0 300 36" aria-hidden="true"><path pathLength="1" d="M8 22H124M150 31C140 23 131 16 137 9C142 4 150 8 150 13C150 8 158 4 163 9C169 16 160 23 150 31M176 22H292"/></svg>
     <p class="hero-data">11 · 12 · 2026</p>
@@ -190,22 +190,19 @@
     <div class="rsvp-cena revela">
       <div class="rsvp-cartao">
         <form class="form" id="form-rsvp" novalidate>
-          <label class="campo"><span>Seu nome</span>
-            <input name="nome" id="rsvp-nome" autocomplete="name" maxlength="80" required>
+          <!-- Link com nomes (?c=...): o campo de nome some e aparece a lista "Quem vai?" -->
+          <label class="campo" id="campo-nome"><span>Seu nome</span>
+            <input name="nome" id="rsvp-nome" autocomplete="name" maxlength="80">
           </label>
-          <div class="escolhas" role="radiogroup" aria-label="Você vai?">
-            <label class="escolha"><input type="radio" name="vai" value="sim" checked><span class="escolha-icone" aria-hidden="true">🥂</span>Vou, com certeza!</label>
-            <label class="escolha"><input type="radio" name="vai" value="nao"><span class="escolha-icone" aria-hidden="true">💌</span>Não vou poder ir</label>
+          <div class="escolhas" role="radiogroup" aria-label="Presença">
+            <label class="escolha"><input type="radio" name="vai" value="sim" checked><span class="escolha-icone" aria-hidden="true">🥂</span><span class="txt-sim">Vou, com certeza!</span></label>
+            <label class="escolha"><input type="radio" name="vai" value="nao"><span class="escolha-icone" aria-hidden="true">💌</span><span class="txt-nao">Não vou poder ir</span></label>
           </div>
-          <div class="campo so-sim"><span>Quantas pessoas, contando você?</span>
-            <div class="contador">
-              <button type="button" class="menos" aria-label="Menos uma pessoa">−</button>
-              <output id="pessoas-num" aria-live="polite">1</output>
-              <button type="button" class="mais" aria-label="Mais uma pessoa">+</button>
-            </div>
-            <input type="hidden" name="pessoas" id="rsvp-pessoas" value="1">
-            <small id="contador-max"></small>
-          </div>
+          <fieldset class="quem so-sim" id="quem" hidden>
+            <legend>Quem vai?</legend>
+            <div class="quem-lista" id="quem-lista"></div>
+            <small id="quem-info"></small>
+          </fieldset>
           <label class="campo so-sim"><span>Alguma restrição alimentar? <small>(opcional)</small></span>
             <input name="restricoes" maxlength="120">
           </label>

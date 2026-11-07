@@ -15,7 +15,6 @@ const CONFIG = {
   listaPresentes: '',  // link de lista de presentes (opcional)
   whatsapp: '',        // quem recebe as confirmações: só dígitos, 55 + DDD + número
   planilha: '',        // URL do Google Apps Script (opcional, ver HANDOFF.md)
-  pessoasPadrao: 4,    // máximo de pessoas no RSVP quando o link não tem ?n=
 };
 
 (() => {
@@ -27,11 +26,21 @@ const CONFIG = {
   const calmo = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const aleat = (a, b) => a + Math.random() * (b - a);
 
-  /* ---------- Link personalizado: ?para=Nome&n=2 ---------- */
+  /* ---------- Link personalizado ----------
+     ?c=<nomes em base64>, gerado em links.html (os nomes não ficam legíveis na URL;
+     é disfarce, não segurança). Também aceita ?para=Ana|Bruno sem codificar. */
+  const b64dec = (s) => {
+    try {
+      s = s.replace(/-/g, '+').replace(/_/g, '/');
+      s += '==='.slice((s.length + 3) % 4);
+      return new TextDecoder().decode(Uint8Array.from(atob(s), (c) => c.charCodeAt(0)));
+    } catch (e) { return ''; }
+  };
+  const juntar = (l) => (l.length > 1 ? l.slice(0, -1).join(', ') + ' e ' + l[l.length - 1] : l[0] || '');
   const q = new URLSearchParams(location.search);
-  const convidado = (q.get('para') || '').trim().slice(0, 60);
-  const n = parseInt(q.get('n'), 10);
-  const vagas = Math.min(Math.max(n || CONFIG.pessoasPadrao, 1), 20);
+  const nomes = ((q.get('c') ? b64dec(q.get('c')) : q.get('para')) || '')
+    .split('|').map((s) => s.trim().slice(0, 40)).filter(Boolean).slice(0, 12);
+  const convidado = juntar(nomes);
 
   $$('[data-cfg]').forEach((el) => {
     const v = String(CONFIG[el.dataset.cfg] || '');
@@ -43,7 +52,6 @@ const CONFIG = {
     $('#para-envelope').hidden = false;
     $('#saudacao').textContent = convidado + ',';
     $('#saudacao').hidden = false;
-    $('#rsvp-nome').value = convidado;
   }
 
   /* ---------- Pétalas e confete (canvas) ---------- */
@@ -112,11 +120,25 @@ const CONFIG = {
     }
     anima();
   };
+  const farelos = (x, y) => { // farelinhos de cera quando o selo racha
+    if (calmo) return;
+    for (let i = 0; i < 16; i++) {
+      const ang = aleat(-Math.PI * .9, -Math.PI * .1), vel = aleat(1.5, 4.5);
+      parts.push({
+        x: x + aleat(-30, 30), y, tipo: 'confete', r: aleat(2, 4.5), cor: ['#7B2D3B', '#561A25', '#9E3E4C'][Math.random() * 3 | 0], alfa: 1,
+        vx: Math.cos(ang) * vel, vy: Math.sin(ang) * vel, g: .25, vmax: 6, atrito: .98,
+        osc: 0, vosc: .1, balanco: .2, rot: aleat(0, 6.3), vr: aleat(-.3, .3), vida: 0,
+      });
+    }
+    anima();
+  };
 
   /* ---------- Envelope ---------- */
-  $('#abrir').addEventListener('click', () => {
-    try { sessionStorage.setItem('aberto', '1'); } catch (e) {}
+  $('#abrir').addEventListener('click', (e) => {
+    try { sessionStorage.setItem('aberto', '1'); } catch (err) {}
     if (navigator.vibrate) navigator.vibrate(18);
+    const rs = e.currentTarget.getBoundingClientRect();
+    setTimeout(() => farelos(rs.left + rs.width / 2, rs.top + rs.height * .56), 330);
     window.scrollTo(0, 0);
     setTimeout(() => chuva(48), 1500);
     setTimeout(() => {
@@ -288,55 +310,61 @@ const CONFIG = {
     if (e.key === 'ArrowLeft') mostra(atual - 1, 'ant');
   });
 
-  /* ---------- RSVP: escolhas, contador e cartão que vira ---------- */
+  /* ---------- RSVP: só as pessoas do convite, cartão que vira ---------- */
   const form = $('#form-rsvp');
   const cena = $('.rsvp-cena');
   const verso = $('#obrigado');
   verso.inert = true;
-  const escolhas = $$('.escolha');
-  const atualizaEscolha = () => {
-    escolhas.forEach((l) => l.classList.toggle('marcada', $('input', l).checked));
+  const varios = nomes.length > 1;
+  if (nomes.length) $('#campo-nome').hidden = true; // nomes já vêm no link
+  if (varios) {
+    $('.txt-sim').textContent = 'Vamos, com certeza!';
+    $('.txt-nao').textContent = 'Não poderemos ir';
+    $('#quem').hidden = false;
+    $('#quem-info').textContent = `Este convite é para ${nomes.length} pessoas. Desmarque quem não puder ir.`;
+    nomes.forEach((nome) => {
+      const l = document.createElement('label');
+      l.className = 'pessoa';
+      l.innerHTML = '<input type="checkbox" checked><span class="check" aria-hidden="true"></span><span class="nome-p"></span>';
+      $('input', l).value = nome;
+      $('.nome-p', l).textContent = nome;
+      $('#quem-lista').appendChild(l);
+    });
+  }
+  const atualiza = () => {
+    $$('.escolha, .pessoa').forEach((l) => l.classList.toggle('marcada', $('input', l).checked));
     form.classList.toggle('nao-vai', form.elements.vai.value === 'nao');
   };
-  form.addEventListener('change', atualizaEscolha);
-  atualizaEscolha();
-
-  let pessoas = 1;
-  const saida = $('#pessoas-num');
-  const menos = $('.contador .menos');
-  const mais = $('.contador .mais');
-  const defineP = (x, pular) => {
-    pessoas = Math.min(Math.max(x, 1), vagas);
-    saida.textContent = pessoas;
-    $('#rsvp-pessoas').value = pessoas;
-    menos.disabled = pessoas <= 1;
-    mais.disabled = pessoas >= vagas;
-    if (pular) { saida.classList.remove('pulo'); void saida.offsetWidth; saida.classList.add('pulo'); }
+  form.addEventListener('change', atualiza);
+  atualiza();
+  const treme = (el) => {
+    el.classList.remove('erro');
+    void el.offsetWidth;
+    el.classList.add('erro');
+    setTimeout(() => el.classList.remove('erro'), 500);
   };
-  menos.addEventListener('click', () => defineP(pessoas - 1, true));
-  mais.addEventListener('click', () => defineP(pessoas + 1, true));
-  defineP(1);
-  if (n > 0) $('#contador-max').textContent = vagas === 1 ? 'Este convite é individual.' : `Este convite é para até ${vagas} pessoas.`;
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const d = Object.fromEntries(new FormData(form));
-    d.nome = (d.nome || '').trim();
-    if (!d.nome) {
-      const campo = form.elements.nome;
-      campo.focus();
-      campo.classList.add('erro');
-      setTimeout(() => campo.classList.remove('erro'), 500);
-      return;
-    }
     const vai = d.vai === 'sim';
-    if (!vai) { d.pessoas = '0'; d.restricoes = ''; }
-    d.convite = convidado;
+    const nomeLivre = (d.nome || '').trim();
+    if (!nomes.length && !nomeLivre) { treme(form.elements.nome); form.elements.nome.focus(); return; }
+    const convite = nomes.length ? nomes : [nomeLivre];
+    const quem = !vai ? [] : varios ? $$('#quem-lista input:checked').map((i) => i.value) : convite;
+    if (vai && !quem.length) { treme($('#quem-lista')); avisa('Marque quem vai 🙂'); return; }
+    const naoVao = convite.filter((x) => !quem.includes(x));
+    const plural = (vai ? quem.length : convite.length) > 1;
     const linhas = vai
-      ? ['Oi, Kimie e David! Confirmo presença no casamento 💍', 'Nome: ' + d.nome, 'Pessoas: ' + d.pessoas]
-      : ['Oi, Kimie e David! Infelizmente não vou poder ir ao casamento.', 'Nome: ' + d.nome];
-    if (d.restricoes) linhas.push('Restrições: ' + d.restricoes);
+      ? [`Oi, Kimie e David! ${plural ? 'Confirmamos' : 'Confirmo'} presença no casamento 💍`, 'Quem vai: ' + juntar(quem)]
+      : [`Oi, Kimie e David! Infelizmente não ${plural ? 'poderemos' : 'poderei'} ir ao casamento.`, 'Convite: ' + juntar(convite)];
+    if (vai && naoVao.length) linhas.push('Não vai: ' + juntar(naoVao));
+    if (vai && d.restricoes) linhas.push('Restrições: ' + d.restricoes);
     if (d.recado) linhas.push('Recado: ' + d.recado);
+    const dados = {
+      convite: juntar(convite), vai: vai ? 'sim' : 'não', quem: juntar(quem), pessoas: quem.length,
+      nao_vao: juntar(naoVao), restricoes: vai ? d.restricoes || '' : '', recado: d.recado || '',
+    };
 
     const botao = $('[type=submit]', form);
     const r = botao.getBoundingClientRect();
@@ -345,7 +373,7 @@ const CONFIG = {
     let enviado = false;
     if (CONFIG.planilha) {
       try {
-        await fetch(CONFIG.planilha, { method: 'POST', mode: 'no-cors', body: new URLSearchParams(d) });
+        await fetch(CONFIG.planilha, { method: 'POST', mode: 'no-cors', body: new URLSearchParams(dados) });
         enviado = true;
       } catch (err) {
         botao.disabled = false;
