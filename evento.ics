@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Kimie e David//Convite//PT
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:casamento-kimie-david-20261211@matosdavid.github.io
+DTSTAMP:20261107T120000Z
+DTSTART:20261211T180000Z
+DTEND:20261212T010000Z
+SUMMARY:Casamento Kimie & David 💍
+LOCATION:[Local a definir]
+DESCRIPTION:Cerimônia às 15h. Convite: https://matosdavid.github.io/casamento/
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:Amanhã é o casamento de Kimie & David!
+END:VALARM
+END:VEVENT
+END:VCALENDAR

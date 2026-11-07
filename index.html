@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#7B2D3B">
+<title>Kimie &amp; David · 11.12.2026</title>
+<meta name="description" content="Com muita alegria, convidamos você para o nosso casamento. Sexta-feira, 11 de dezembro de 2026, às 15h.">
+<!-- Prévia ao compartilhar (WhatsApp, Instagram...) -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="https://matosdavid.github.io/casamento/">
+<meta property="og:title" content="Kimie &amp; David · 11.12.2026">
+<meta property="og:description" content="Com muita alegria, convidamos você para o nosso casamento. Sexta-feira, 11 de dezembro de 2026, às 15h.">
+<meta property="og:image" content="https://matosdavid.github.io/casamento/assets/fotos/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💍</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+<script>
+  // Envelope aparece uma vez por visita; links com #secao (ex.: #rsvp) pulam direto.
+  document.documentElement.classList.add('js');
+  try { if (location.hash || sessionStorage.getItem('aberto')) document.documentElement.classList.add('aberto', 'direto'); } catch (e) {}
+</script>
+</head>
+<body>
+
+<!-- ============ ENVELOPE DE ABERTURA ============ -->
+<div class="envelope" id="envelope">
+  <div class="aba"></div>
+  <div class="env-topo">
+    <p class="sobre">Você recebeu um convite</p>
+    <p class="env-nomes">Kimie <em>&amp;</em> David</p>
+  </div>
+  <button class="selo" id="abrir" type="button" aria-label="Abrir o convite"
+          onclick="document.documentElement.classList.add('aberto')">K<em>&amp;</em>D</button>
+  <div class="env-base">
+    <p class="para" id="para-envelope" hidden>Para <span id="nome-envelope"></span></p>
+    <p class="dica">Toque no selo para abrir</p>
+  </div>
+</div>
+
+<!-- ============ CAPA (foto vertical no celular, horizontal no computador) ============ -->
+<header class="hero" id="inicio">
+  <picture>
+    <source media="(min-aspect-ratio: 1/1)" srcset="assets/fotos/capa-horizontal.jpg">
+    <img src="assets/fotos/capa-vertical.jpg" alt="Kimie e David" fetchpriority="high">
+  </picture>
+  <div class="hero-texto">
+    <p class="sobre">Vamos nos casar</p>
+    <h1>Kimie <em>&amp;</em> David</h1>
+    <p class="hero-data">11 · 12 · 2026</p>
+    <p class="hero-hora">sexta-feira · 15h</p>
+  </div>
+  <a class="rolar" href="#convite" aria-label="Ver o convite">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+  </a>
+</header>
+
+<main>
+  <!-- ============ CONVITE ============ -->
+  <section class="secao convite" id="convite">
+    <p class="saudacao" id="saudacao" hidden></p>
+    <p class="sobre">Com muita alegria</p>
+    <h2>convidamos você para celebrar o nosso casamento</h2>
+    <div class="ornamento" aria-hidden="true"><span></span>✦<span></span></div>
+    <p class="texto">Depois de tantos capítulos escritos juntos, chegou a hora do mais bonito deles — e ele só fica completo com você por perto.</p>
+    <p class="assinatura">Kimie &amp; David</p>
+  </section>
+
+  <!-- ============ CONTAGEM ============ -->
+  <section class="secao contagem" aria-label="Contagem regressiva">
+    <p class="sobre" id="faltam">Faltam</p>
+    <div class="relogio" id="relogio">
+      <div><span id="cd-dias">--</span><small>dias</small></div>
+      <div><span id="cd-horas">--</span><small>horas</small></div>
+      <div><span id="cd-min">--</span><small>min</small></div>
+      <div><span id="cd-seg">--</span><small>seg</small></div>
+    </div>
+    <p class="contagem-fim" id="contagem-fim" hidden>Chegou o grande dia!</p>
+  </section>
+
+  <!-- ============ NOSSA HISTÓRIA ============ -->
+  <section class="secao historia" id="historia">
+    <p class="sobre">Nossa história</p>
+    <h2>Como tudo começou</h2>
+    <div class="linha-tempo">
+      <article>
+        <span class="ano todo">[ano]</span>
+        <h3>O primeiro encontro</h3>
+        <p class="todo">[Contem em 2–3 frases como vocês se conheceram.]</p>
+      </article>
+      <article>
+        <span class="ano todo">[ano]</span>
+        <h3>O pedido</h3>
+        <p class="todo">[Como foi o pedido de casamento.]</p>
+      </article>
+      <article>
+        <span class="ano">2026</span>
+        <h3>O grande dia</h3>
+        <p>11 de dezembro: o dia do nosso “sim” — e queremos você lá.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ GALERIA (trocar os arquivos em assets/fotos/) ============ -->
+  <section class="secao alt" id="galeria">
+    <p class="sobre">Momentos</p>
+    <h2>Nós dois</h2>
+    <div class="galeria">
+      <img class="v" src="assets/fotos/galeria-1.jpg" alt="Foto do casal" loading="lazy">
+      <img src="assets/fotos/galeria-2.jpg" alt="Foto do casal" loading="lazy">
+      <img src="assets/fotos/galeria-3.jpg" alt="Foto do casal" loading="lazy">
+      <img src="assets/fotos/galeria-4.jpg" alt="Foto do casal" loading="lazy">
+      <img class="v" src="assets/fotos/galeria-5.jpg" alt="Foto do casal" loading="lazy">
+      <img src="assets/fotos/galeria-6.jpg" alt="Foto do casal" loading="lazy">
+    </div>
+  </section>
+
+  <!-- ============ LOCAL (textos vêm do CONFIG em script.js) ============ -->
+  <section class="secao" id="local">
+    <p class="sobre">Onde e quando</p>
+    <h2>Cerimônia e recepção</h2>
+    <div class="cartao">
+      <div class="cartao-data">
+        <span class="mini">sexta-feira</span>
+        <span class="dia">11</span>
+        <span class="mini">dezembro · 2026</span>
+        <span class="mini hora">às 15h</span>
+      </div>
+      <div class="cartao-local">
+        <h3 data-cfg="local"></h3>
+        <p data-cfg="endereco"></p>
+        <div class="botoes">
+          <a class="botao" id="btn-mapa" href="#" target="_blank" rel="noopener">Como chegar</a>
+          <a class="botao botao-claro" id="btn-agenda" href="#" target="_blank" rel="noopener">Salvar na agenda</a>
+        </div>
+      </div>
+    </div>
+    <div class="infos">
+      <div><h3>Traje</h3><p data-cfg="traje"></p></div>
+      <div><h3>Confirme até</h3><p data-cfg="prazo"></p></div>
+    </div>
+  </section>
+
+  <!-- ============ PRESENTES ============ -->
+  <section class="secao alt" id="presentes">
+    <p class="sobre">Presentes</p>
+    <h2>Sua presença é o nosso maior presente</h2>
+    <p class="texto">Mas, se quiser nos mimar, ficaremos muito felizes com uma contribuição para a nossa nova vida a dois.</p>
+    <div class="pix">
+      <span class="pix-rotulo">Chave PIX</span>
+      <code data-cfg="pix"></code>
+      <small>Titular: <span data-cfg="pixNome"></span></small>
+      <button class="botao" id="btn-pix" type="button">Copiar chave</button>
+    </div>
+    <a class="link-lista" id="link-lista" href="#" target="_blank" rel="noopener" hidden>Ver lista de presentes →</a>
+  </section>
+
+  <!-- ============ RSVP ============ -->
+  <section class="secao" id="rsvp">
+    <p class="sobre">RSVP</p>
+    <h2>Confirme sua presença</h2>
+    <p class="texto">Responda até <strong data-cfg="prazo"></strong> — isso ajuda muito na nossa organização!</p>
+    <form class="form" id="form-rsvp" novalidate>
+      <label><span>Seu nome</span>
+        <input name="nome" id="rsvp-nome" autocomplete="name" maxlength="80" required>
+      </label>
+      <fieldset class="opcoes">
+        <legend>Você vai?</legend>
+        <label class="opcao"><input type="radio" name="vai" value="sim" checked> Sim, estarei lá!</label>
+        <label class="opcao"><input type="radio" name="vai" value="nao"> Infelizmente não poderei ir</label>
+      </fieldset>
+      <label class="so-sim"><span>Quantas pessoas, contando você?</span>
+        <select name="pessoas" id="rsvp-pessoas"></select>
+      </label>
+      <label class="so-sim"><span>Alguma restrição alimentar? <small>(opcional)</small></span>
+        <input name="restricoes" maxlength="120">
+      </label>
+      <label><span>Recado para os noivos <small>(opcional)</small></span>
+        <textarea name="recado" rows="3" maxlength="500"></textarea>
+      </label>
+      <button class="botao botao-grande" type="submit">Enviar confirmação</button>
+    </form>
+    <div class="obrigado" id="obrigado" hidden>
+      <p class="obrigado-titulo" id="obrigado-titulo"></p>
+      <p id="obrigado-texto"></p>
+    </div>
+  </section>
+</main>
+
+<footer class="rodape">
+  <div class="monograma">K<em>&amp;</em>D</div>
+  <p>11 de dezembro de 2026</p>
+  <a href="#inicio">voltar ao topo ↑</a>
+</footer>
+
+<a class="flutuante" id="flutuante" href="#rsvp">Confirmar presença</a>
+
+<script src="script.js"></script>
+</body>
+</html>

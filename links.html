@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Links dos convidados</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Jost:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+  .gerador { max-width: 720px; margin: 0 auto; padding: 48px 20px 80px; }
+  .gerador h1 { font-size: 42px; margin-bottom: 12px; }
+  .gerador textarea { width: 100%; min-height: 150px; padding: 12px; font: 400 15px/1.5 var(--sans); border: 1px solid var(--ouro-claro); border-radius: 8px; background: var(--cartao); }
+  .gerador label { display: block; margin: 16px 0; }
+  .gerador ul { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 10px; }
+  .gerador li { padding: 14px; background: var(--cartao); border: 1px solid var(--ouro-claro); border-radius: 8px; }
+  .gerador li b { font-weight: 500; }
+  .gerador .link { display: block; margin: 4px 0 10px; font-size: 13px; color: var(--tinta-2); word-break: break-all; }
+  .gerador li .botao { padding: 10px 14px; font-size: 11px; margin: 2px 4px 2px 0; }
+</style>
+</head>
+<body>
+<main class="gerador">
+  <p class="sobre" style="padding-left:0">Só para os noivos · nada aqui é salvo</p>
+  <h1>Links personalizados</h1>
+  <p>Um convidado por linha, no formato <code>Nome; pessoas</code> (ex.: <code>Tia Maria; 2</code>). Sem número, o RSVP usa o padrão do site.</p>
+  <textarea id="lista" placeholder="Tia Maria; 2&#10;Família Souza; 4&#10;Ana"></textarea>
+  <label>Mensagem do WhatsApp ({nome} e {link} são trocados automaticamente)
+    <textarea id="msg" style="min-height:90px">Olá, {nome}! 💍 Com muita alegria, convidamos você para o nosso casamento. Seu convite está aqui: {link}</textarea>
+  </label>
+  <button class="botao" id="gerar" type="button">Gerar links</button>
+  <ul id="saida"></ul>
+</main>
+<script>
+  const base = new URL('./', location.href).href;
+  document.getElementById('gerar').onclick = () => {
+    const saida = document.getElementById('saida');
+    const tpl = document.getElementById('msg').value;
+    saida.innerHTML = '';
+    document.getElementById('lista').value.split('\n').map((l) => l.trim()).filter(Boolean).forEach((l) => {
+      const [nome, n] = l.split(';').map((s) => s.trim());
+      const p = new URLSearchParams({ para: nome });
+      if (+n > 0) p.set('n', String(+n));
+      const link = base + '?' + p;
+      const texto = tpl.split('{nome}').join(nome).split('{link}').join(link);
+      const li = document.createElement('li');
+      li.innerHTML = '<b></b><a class="link" target="_blank"></a>'
+        + '<button class="botao botao-claro" type="button">Copiar mensagem</button>'
+        + '<a class="botao wa" target="_blank" rel="noopener">Enviar no WhatsApp</a>';
+      li.querySelector('b').textContent = nome + (+n > 0 ? ' · ' + n + ' pessoa(s)' : '');
+      const a = li.querySelector('.link'); a.href = link; a.textContent = link;
+      li.querySelector('.wa').href = 'https://wa.me/?text=' + encodeURIComponent(texto);
+      li.querySelector('button').onclick = (e) => navigator.clipboard.writeText(texto).then(() => { e.target.textContent = 'Copiado ✓'; });
+      saida.appendChild(li);
+    });
+  };
+</script>
+</body>
+</html>
